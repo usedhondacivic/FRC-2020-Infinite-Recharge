@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot>
+    <controller port="0" id="DRIVE_CONTROLLER">
+        <chassis>
+            <button button="LEFT_TRIGGER" function="MODE_FAST"></button>
+            <button button="RIGHT_TRIGGER" function="MODE_SLOW"></button>
+        </chassis>
+    </controller>
+    <controller port="1" id="OPERATOR_CONTROLLER">
+        <shooter>
+            <button button="A" function="ARM"></button>
+            <button button="B" function="SHOOT"></button>
+            <button button="X" function="INTAKE"></button>
+        </shooter>
+        <climber>
+            <button button="LEFT_SHOULDER" function="EXTEND"></button>
+            <button button="RIGHT_SHOULDER" function="WINCH"></button>
+        </climber>
+    </controller>
+</robot>

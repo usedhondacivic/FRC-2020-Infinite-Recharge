@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot>
+    <chassis>
+        <motor controller="spark" port="0" id="testSingle"></motor>
+        <group id="testDouble">
+            <motor controller="spark" port="1"></motor>
+            <motor controller="spark" port="2"></motor>
+        </group>
+    </chassis>
+    <shooter></shooter>
+    <climber></climber>
+</robot>

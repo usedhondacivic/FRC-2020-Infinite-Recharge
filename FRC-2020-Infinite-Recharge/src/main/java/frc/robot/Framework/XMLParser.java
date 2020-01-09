@@ -1,47 +1,27 @@
 package frc.robot.Framework;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
+import org.w3c.dom.*;
+import javax.xml.parsers.*;
+import java.io.*;
 
 public class XMLParser{
-    private String filePath;
+    private Document doc;
 
-    public XMLParser(String filePath){
-        this.filePath = filePath;
-    }
-
-    public void print(){
+    public XMLParser(String path){
         try {
-
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser saxParser = factory.newSAXParser();
-        
-            DefaultHandler handler = new DefaultHandler() {
-            
-                public void startElement(String uri, String localName,String qName, Attributes attributes) throws SAXException {
-
-                    System.out.println("Start Element :" + qName);
-
-                }
-            
-                public void endElement(String uri, String localName, String qName) throws SAXException {
-            
-                    System.out.println("End Element :" + qName);
-            
-                }
-            
-                public void characters(char ch[], int start, int length) throws SAXException {
+            File fXmlFile = new File(path);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            doc = dBuilder.parse(fXmlFile);
                     
-                }
-            };
-        
-            saxParser.parse(filePath, handler);
-         
+            doc.getDocumentElement().normalize();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Element getRootElement(){
+        return doc.getDocumentElement();
     }
 }
