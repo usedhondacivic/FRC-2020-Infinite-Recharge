@@ -23,6 +23,6 @@ public class Climber implements Subsystem{
     }
 
     public void teleopPeriodic(){
-        System.out.println("Climber periodic");
+        
     }
 }

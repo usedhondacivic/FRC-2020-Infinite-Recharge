@@ -6,11 +6,13 @@ import frc.robot.Subsystems.Chassis;
 import frc.robot.Subsystems.Shooter;
 import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.Macro;
+import frc.robot.Framework.IO.In.In;
 
 public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    In.Init("XML/Controls/Michael.xml", "XML/Subsystems.xml");
     Subsystems.add(new Chassis());
     Subsystems.add(new Climber());
     Subsystems.add(new Shooter());

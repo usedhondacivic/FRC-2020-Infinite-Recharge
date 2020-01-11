@@ -6,34 +6,18 @@ import frc.robot.Subsystems.SubsystemID;
 
 import org.w3c.dom.*;
 
-public abstract class ControllerWrapper{
-    private Map<String, Integer> buttonIDs = Map.ofEntries(
-        Map.entry("A", 1),
-        Map.entry("B", 2),
-        Map.entry("X", 3),
-        Map.entry("Y", 4),
-        Map.entry("LEFT_SHOULDER", 5),
-        Map.entry("RIGHT_SHOULDER", 6),
-        Map.entry("BACK", 7),
-        Map.entry("RESTART", 8),
-        Map.entry("LEFT_JOYSTICK_IN", 9),
-        Map.entry("RIGHT_JOYSTICK_IN", 10)
-    );
-    private Map<String, Integer> axisIDs = Map.ofEntries(
-        Map.entry("LEFT_JOYSTICK_X", 0),
-        Map.entry("LEFT_JOYSTICK_Y", 1),
-        Map.entry("LEFT_TRIGGER", 2),
-        Map.entry("RIGHT_TRIGGER", 3),
-        Map.entry("RIGHT_JOYSTICK_X", 4),
-        Map.entry("RIGHT_JOYSTICK_Y", 5)
-    );
+public class ControllerWrapper{
 
     private ControllerBase controller;
     private Map<String, SubsystemCollection> subsystemCollections = new HashMap<>();
 
+    public ControllerWrapper(ControllerBase controllerType){
+        controller = controllerType;
+    }
+
     private class SubsystemCollection{
-        public Map<String, Integer> buttons = new HashMap<>();
-        public Map<String, Integer> axes = new HashMap<>();
+        public Map<String, String> buttons = new HashMap<>();
+        public Map<String, String> axes = new HashMap<>();
 
         public SubsystemCollection(Element system){
             NodeList buttonNodes = system.getElementsByTagName("button");
@@ -41,7 +25,7 @@ public abstract class ControllerWrapper{
                 Node currentButton = buttonNodes.item(i);
                 if(currentButton.getNodeType() == Node.ELEMENT_NODE){
                     Element buttonElement = (Element)currentButton;
-                    buttons.put(buttonElement.getAttribute("function"), buttonIDs.get(buttonElement.getAttribute("button")));
+                    buttons.put(buttonElement.getAttribute("function"), buttonElement.getAttribute("button"));
                 }
             }
 
@@ -50,7 +34,7 @@ public abstract class ControllerWrapper{
                 Node currentAxis = axisNodes.item(i);
                 if(currentAxis.getNodeType() == Node.ELEMENT_NODE){
                     Element axisElement = (Element)currentAxis;
-                    axes.put(axisElement.getAttribute("function"), axisIDs.get(axisElement.getAttribute("axis")));
+                    axes.put(axisElement.getAttribute("function"), axisElement.getAttribute("axis"));
                 }
             }
         }
@@ -73,7 +57,7 @@ public abstract class ControllerWrapper{
             System.out.println("Button not found. Subsystem not registered on this controller.");
             return false;
         }
-        Integer requestedButton = requestedSystem.buttons.get(buttonName);
+        String requestedButton = requestedSystem.buttons.get(buttonName);
         if(requestedButton == null){
             System.out.println("Button not found. Button not registered for requested subsystem.");
             return false;
@@ -87,7 +71,7 @@ public abstract class ControllerWrapper{
             System.out.println("Axis not found. Subsystem not registered on this controller.");
             return 0.0;
         }
-        Integer requestedAxis = requestedSystem.axes.get(axisName);
+        String requestedAxis = requestedSystem.axes.get(axisName);
         if(requestedAxis == null){
             System.out.println("Axis not found. Axis not registered for requested subsystem.");
             return 0.0;
