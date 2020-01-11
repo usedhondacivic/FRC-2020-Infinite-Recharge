@@ -1,12 +1,14 @@
 <?xml version="1.0"?>
 <robot>
-    <controller port="0" id="DRIVE_CONTROLLER">
+    <controller type="logitech" port="0" id="DRIVE_CONTROLLER">
         <chassis>
-            <button button="LEFT_TRIGGER" function="MODE_FAST"></button>
-            <button button="RIGHT_TRIGGER" function="MODE_SLOW"></button>
+            <axis axis="LEFT_TRIGGER" function="MODE_FAST"></axis>
+            <axis axis="RIGHT_TRIGGER" function="MODE_SLOW"></axis>
+            <axis axis="RIGHT_JOYSTICK_Y" function="RIGHT_SPEED"></axis>
+            <axis axis="LEFT_JOYSTICK_Y" function="LEFT_SPEED"></axis>
         </chassis>
     </controller>
-    <controller port="1" id="OPERATOR_CONTROLLER">
+    <controller type="logitech" port="1" id="OPERATOR_CONTROLLER">
         <shooter>
             <button button="A" function="ARM"></button>
             <button button="B" function="SHOOT"></button>
