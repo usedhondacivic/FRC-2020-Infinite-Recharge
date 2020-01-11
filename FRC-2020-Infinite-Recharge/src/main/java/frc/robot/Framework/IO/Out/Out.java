@@ -1,6 +1,6 @@
-package frc.robot.Framework.IO;
+package frc.robot.Framework.IO.Out;
 
-import frc.robot.Framework.IO.Motors.MotorBase;
+import frc.robot.Framework.IO.Out.Motors.MotorBase;
 
 import java.util.Map;
 import java.util.HashMap;

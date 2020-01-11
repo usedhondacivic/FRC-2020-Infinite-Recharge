@@ -1,4 +1,4 @@
-package frc.robot.Framework.IO;
+package frc.robot.Framework.IO.In;
 
 public interface ControllerBase{
 

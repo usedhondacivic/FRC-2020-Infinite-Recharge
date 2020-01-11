@@ -1,4 +1,4 @@
-package frc.robot.Framework.IO.Motors;
+package frc.robot.Framework.IO.Out.Motors;
 
 public interface MotorBase{
     public void init(int port);

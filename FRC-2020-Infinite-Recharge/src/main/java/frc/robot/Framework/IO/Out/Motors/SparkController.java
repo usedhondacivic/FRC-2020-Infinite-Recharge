@@ -1,4 +1,4 @@
-package frc.robot.Framework.IO.Motors;
+package frc.robot.Framework.IO.Out.Motors;
 
 import edu.wpi.first.wpilibj.Spark;
 
