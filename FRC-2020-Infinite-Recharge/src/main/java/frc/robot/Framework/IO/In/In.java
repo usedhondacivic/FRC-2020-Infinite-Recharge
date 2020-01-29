@@ -41,13 +41,19 @@ public class In{
 
     }
 
-    public static boolean getButton(String function, String controller, SubsystemID subsystem){
-        ControllerWrapper requestedController = controllers.get(controller);
-        return requestedController.getButton(function, subsystem);
+    private SubsystemID id;
+
+    public In(SubsystemID systemID){
+        id = systemID;
     }
 
-    public static double getAxis(String function, String controller, SubsystemID subsystem){
+    public boolean getButton(String function, String controller){
         ControllerWrapper requestedController = controllers.get(controller);
-        return requestedController.getAxis(function, subsystem);
+        return requestedController.getButton(function, id);
+    }
+
+    public double getAxis(String function, String controller){
+        ControllerWrapper requestedController = controllers.get(controller);
+        return requestedController.getAxis(function, id);
     }
 }
