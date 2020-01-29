@@ -1,11 +1,12 @@
-package frc.robot.Framework.IO.Out.Motors;
+package frc.robot.Framework.IO.Out.Motors.MotorTypes;
 
 import edu.wpi.first.wpilibj.Spark;
+import frc.robot.Framework.IO.Out.Motors.MotorBase;
 
 public class SparkController implements MotorBase{
     private Spark controller;
 
-    public void init(int port){
+    public SparkController(int port){
         controller = new Spark(port);
     }
 

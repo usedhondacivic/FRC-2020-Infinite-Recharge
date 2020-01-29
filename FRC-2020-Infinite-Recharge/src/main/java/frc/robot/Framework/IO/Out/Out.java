@@ -9,7 +9,7 @@ public class Out{
     private Map<String, MotorBase> motors = new HashMap<>();
 
     public Out(String XMLNode){
-
+        
     };
 
     public void setMotor(String name, double speed){

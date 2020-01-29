@@ -4,6 +4,8 @@ import frc.robot.Framework.Subsystem;
 import frc.robot.Framework.IO.In.In;
 
 public class Shooter implements Subsystem{
+    private In input = new In(SubsystemID.SHOOTER);
+
     public void robotInit(){
         System.out.println("Shooter init");
     }
@@ -24,7 +26,7 @@ public class Shooter implements Subsystem{
     }
 
     public void teleopPeriodic(){
-        if(In.getButton("INTAKE", "OPERATOR", SubsystemID.SHOOTER)){
+        if(input.getButton("INTAKE", "OPERATOR")){
             System.out.println("Intake button pressed.");
         }
     }

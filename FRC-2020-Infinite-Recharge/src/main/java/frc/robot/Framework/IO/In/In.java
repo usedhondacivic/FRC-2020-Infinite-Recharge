@@ -3,8 +3,8 @@ package frc.robot.Framework.IO.In;
 import java.util.Map;
 import java.util.HashMap;
 
-import frc.robot.Framework.IO.In.ControllerWrapper;
-import frc.robot.Framework.IO.In.ControllerTypes.LogitechGamepad;
+import frc.robot.Framework.IO.In.Controllers.ControllerWrapper;
+import frc.robot.Framework.IO.In.Controllers.ControllerTypes.LogitechGamepad;
 import frc.robot.Framework.Util.XMLParser;
 import frc.robot.Subsystems.SubsystemID;
 

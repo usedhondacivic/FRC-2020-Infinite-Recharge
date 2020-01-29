@@ -1,6 +1,6 @@
-package frc.robot.Framework.IO.In.ControllerTypes;
+package frc.robot.Framework.IO.In.Controllers.ControllerTypes;
 
-import frc.robot.Framework.IO.In.ControllerBase;
+import frc.robot.Framework.IO.In.Controllers.ControllerBase;
 import edu.wpi.first.wpilibj.Joystick;
 import java.util.Map;
 

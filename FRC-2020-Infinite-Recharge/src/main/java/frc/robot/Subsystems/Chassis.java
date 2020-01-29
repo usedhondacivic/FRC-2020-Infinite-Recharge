@@ -5,6 +5,8 @@ import frc.robot.Framework.IO.In.In;
 
 public class Chassis implements Subsystem{
 
+    private In input = new In(SubsystemID.CHASSIS);
+
     public void robotInit(){
         System.out.println("Chassis init");
     }
@@ -25,6 +27,6 @@ public class Chassis implements Subsystem{
     }
 
     public void teleopPeriodic(){
-        System.out.println("Drive left speed: "+In.getAxis("LEFT_SPEED", "DRIVER", SubsystemID.CHASSIS)+".");
+        System.out.println("Drive left speed: "+input.getAxis("LEFT_SPEED", "DRIVE")+".");
     }
 }

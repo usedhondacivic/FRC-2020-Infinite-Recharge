@@ -1,4 +1,4 @@
-package frc.robot.Framework.IO.In;
+package frc.robot.Framework.IO.In.Controllers;
 
 import java.util.Map;
 import java.util.HashMap;
