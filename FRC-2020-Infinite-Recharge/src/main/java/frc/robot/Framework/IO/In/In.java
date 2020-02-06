@@ -37,7 +37,7 @@ public class In{
         }
     }
 
-    private static void initSensors(NodeList controllerList){
+    private static void initSensors(NodeList sensorList){
 
     }
 

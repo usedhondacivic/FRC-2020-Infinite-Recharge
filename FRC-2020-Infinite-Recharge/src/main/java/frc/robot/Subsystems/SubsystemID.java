@@ -4,5 +4,6 @@ public enum SubsystemID{
     CHASSIS,
     CLIMBER,
     SHOOTER,
-    MACRO
+    MACRO,
+    PANEL
 }
