@@ -14,7 +14,7 @@ public class In{
     private static Map<String, ControllerWrapper> controllers = new HashMap<>();
 
     public static void Init(String controlPath, String sensorPath){
-        XMLParser parser = new XMLParser("/home/deploy/"+controlPath);
+        XMLParser parser = new XMLParser("/home/lvuser/deploy/"+controlPath);
         Element root = parser.getRootElement();
         NodeList controllerList = root.getElementsByTagName("controller");
         initControllers(controllerList);
@@ -28,10 +28,10 @@ public class In{
             Node controllerNode = controllerList.item(i);
             if(controllerNode.getNodeType() == Node.ELEMENT_NODE){
                 Element controllerElement = (Element) controllerNode;
-                if(controllerElement.getAttribute("type") == "LOGITECH"){
+                if(controllerElement.getAttribute("type").equals("LOGITECH")){
                     Integer port = Integer.parseInt(controllerElement.getAttribute("port"));
                     String id = controllerElement.getAttribute("id");
-                    controllers.put(id , new ControllerWrapper(new LogitechGamepad(port)));
+                    controllers.put(id, new ControllerWrapper(new LogitechGamepad(port), controllerElement));
                 }
             }
         }

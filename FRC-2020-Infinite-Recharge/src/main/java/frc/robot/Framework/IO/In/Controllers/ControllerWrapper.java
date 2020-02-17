@@ -11,10 +11,6 @@ public class ControllerWrapper{
     private ControllerBase controller;
     private Map<String, SubsystemCollection> subsystemCollections = new HashMap<>();
 
-    public ControllerWrapper(ControllerBase controllerType){
-        controller = controllerType;
-    }
-
     private class SubsystemCollection{
         public Map<String, String> buttons = new HashMap<>();
         public Map<String, String> axes = new HashMap<>();
@@ -40,7 +36,8 @@ public class ControllerWrapper{
         }
     }
 
-    public ControllerWrapper(Element controllerXML){
+    public ControllerWrapper(ControllerBase controllerType, Element controllerXML){
+        controller = controllerType;
         NodeList subsystems = controllerXML.getChildNodes();
         for(int i = 0; i < subsystems.getLength(); i++){
             Node currentSubsystem = subsystems.item(i);
@@ -50,7 +47,7 @@ public class ControllerWrapper{
             }
         }
     }
-
+    
     public boolean getButton(String buttonName, SubsystemID subsystemID){
         SubsystemCollection requestedSystem = subsystemCollections.get(subsystemID.name());
         if(requestedSystem == null){
@@ -68,7 +65,7 @@ public class ControllerWrapper{
     public double getAxis(String axisName, SubsystemID subsystemID){
         SubsystemCollection requestedSystem = subsystemCollections.get(subsystemID.name());
         if(requestedSystem == null){
-            System.out.println("Axis not found. Subsystem not registered on this controller.");
+            System.out.println("Axis not found. Subsystem not registered on requested controller.");
             return 0.0;
         }
         String requestedAxis = requestedSystem.axes.get(axisName);

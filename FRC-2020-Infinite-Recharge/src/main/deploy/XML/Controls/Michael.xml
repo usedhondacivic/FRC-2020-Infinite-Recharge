@@ -6,12 +6,12 @@
             <axis axis="RIGHT_TRIGGER" function="MODE_SLOW"></axis>
             <axis axis="RIGHT_JOYSTICK_Y" function="RIGHT_SPEED"></axis>
             <axis axis="LEFT_JOYSTICK_Y" function="LEFT_SPEED"></axis>
-            <button button="RIGHT_SHOULDER" function="INTAKE_IN"></axis>
+            <button button="RIGHT_SHOULDER" function="INTAKE_IN"></button>
         </CHASSIS>
     </controller>
     <controller type="LOGITECH" port="1" id="OPERATOR">
         <SHOOTER>
-            <axis button="RIGHT_TRIGGER" function="REV_UP"></button>
+            <axis button="RIGHT_TRIGGER" function="REV_UP"></axis>
             <button button="A" function="SHOOT"></button>
             <button button="LEFT_JOYSTICK_X" function="TURRET_AIM"></button>
         </SHOOTER>

@@ -14,10 +14,10 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     In.Init("XML/Controls/Michael.xml", "XML/Subsystems.xml");
     Subsystems.add(new Chassis());
-    Subsystems.add(new Climber());
-    Subsystems.add(new Shooter());
-    Subsystems.add(new Macro());
-    Subsystems.robotInit();
+    //Subsystems.add(new Climber());
+    //Subsystems.add(new Shooter());
+    //Subsystems.add(new Macro());
+    //Subsystems.robotInit();
   }
 
   @Override
