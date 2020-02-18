@@ -5,7 +5,7 @@ import frc.robot.Framework.Subsystems;
 import frc.robot.Subsystems.Chassis;
 import frc.robot.Subsystems.Shooter;
 import frc.robot.Subsystems.Climber;
-import frc.robot.Subsystems.Macro;
+import frc.robot.Subsystems.Intake;
 import frc.robot.Framework.IO.In.In;
 
 public class Robot extends TimedRobot {
@@ -14,9 +14,9 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     In.Init("XML/Controls/Michael.xml", "XML/Subsystems.xml");
     Subsystems.add(new Chassis());
-    //Subsystems.add(new Climber());
     //Subsystems.add(new Shooter());
-    //Subsystems.add(new Macro());
+    //Subsystems.add(new Climber());
+    //Subsystems.add(new Intake());
     //Subsystems.robotInit();
   }
 

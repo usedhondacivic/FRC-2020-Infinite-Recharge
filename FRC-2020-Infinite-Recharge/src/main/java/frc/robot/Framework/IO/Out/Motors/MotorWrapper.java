@@ -1,19 +1,63 @@
 package frc.robot.Framework.IO.Out.Motors;
 
-import org.w3c.dom.Element;
+import org.w3c.dom.*;
 
-public class MotorWrapper{
+import frc.robot.Framework.IO.Out.Motors.MotorBase;
+import frc.robot.Framework.IO.Out.Motors.MotorTypes.MotorGroup;
+import frc.robot.Framework.IO.Out.Motors.MotorTypes.SparkController;
+
+public class MotorWrapper implements MotorBase{
 
     private MotorBase motor;
     private Element motorElement;
 
-    public MotorWrapper(MotorBase motorType, Element motorElement){
-        this.motor = motorType;
-        this.motorElement = motorElement;
+    public MotorWrapper(Element element){
+        motorElement = element;
+        String id = motorElement.getAttribute("id");
+        int port = Integer.parseInt(motorElement.getAttribute("port"));
+        motor = getMotorType(motorElement.getAttribute("controller"), port);
+
+        if(motor == null){
+            System.out.println("For motor: "+id+" motor controller type: "+motorElement.getAttribute("controller")+" was not found!");
+        }
+    }
+
+    public MotorWrapper(Element groupElement, boolean groupFlag){
+        String groupID = groupElement.getAttribute("id");
+        NodeList groupMotorNodes = groupElement.getElementsByTagName("motor");
+        MotorGroup group = new MotorGroup();
+        for(int o = 0; o < groupMotorNodes.getLength(); o++){
+            Node currentMotor = groupMotorNodes.item(o);
+            if(currentMotor.getNodeType() == Node.ELEMENT_NODE){
+                Element motorElement = (Element)currentMotor;
+                int port = Integer.parseInt(motorElement.getAttribute("port"));
+                MotorBase controllerType = getMotorType(motorElement.getAttribute("controller"), port);
+
+                if(controllerType != null){
+                    group.addMotor(new MotorWrapper(motorElement));
+                }else{
+                    System.out.println("For motor in group: "+groupID+" motor controller type: "+controllerType+" was not found!");
+                    continue;
+                }
+            }
+        }
+        motor = group;
+    }
+
+    private MotorBase getMotorType(String controllerType, int port){
+        if(controllerType.equals("SPARK")){
+            return new SparkController(port);
+        }else{
+            return null;
+        }
     }
 
     public void set(double speed){
         motor.set(speed);
+    }
+
+    public void setInverted(boolean invert){
+        motor.setInverted(invert);
     }
 
     public String getAttribute(String attribute){

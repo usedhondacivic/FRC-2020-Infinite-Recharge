@@ -6,8 +6,10 @@
             <axis axis="RIGHT_TRIGGER" function="MODE_SLOW"></axis>
             <axis axis="RIGHT_JOYSTICK_Y" function="RIGHT_SPEED"></axis>
             <axis axis="LEFT_JOYSTICK_Y" function="LEFT_SPEED"></axis>
-            <button button="RIGHT_SHOULDER" function="INTAKE_IN"></button>
         </CHASSIS>
+        <INTAKE>
+            <button button="RIGHT_SHOULDER" function="INTAKE_IN"></button>
+        </INTAKE>
     </controller>
     <controller type="LOGITECH" port="1" id="OPERATOR">
         <SHOOTER>
@@ -20,7 +22,7 @@
             <button button="RIGHT_SHOULDER" function="RETRACT"></button>
         </CLIMBER>
         <INTAKE>
-            <button button="X" function="UNJAM"></button>
+            <button button="X" function="INDEX"></button>
         </INTAKE>
         <PANNEL>
             <button button="Y" function="ACTIVATE"></button>

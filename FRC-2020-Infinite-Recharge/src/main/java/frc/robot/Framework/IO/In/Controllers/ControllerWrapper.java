@@ -51,12 +51,12 @@ public class ControllerWrapper{
     public boolean getButton(String buttonName, SubsystemID subsystemID){
         SubsystemCollection requestedSystem = subsystemCollections.get(subsystemID.name());
         if(requestedSystem == null){
-            System.out.println("Button not found. Subsystem not registered on this controller.");
+            System.out.println("Button not found. Subsystem :"+subsystemID.name()+" not registered on requested controller.");
             return false;
         }
         String requestedButton = requestedSystem.buttons.get(buttonName);
         if(requestedButton == null){
-            System.out.println("Button not found. Button not registered for requested subsystem.");
+            System.out.println("Button not found. Subsystem :"+subsystemID.name()+" not registered on requested controller.");
             return false;
         }
         return controller.getButton(requestedButton);
@@ -65,12 +65,12 @@ public class ControllerWrapper{
     public double getAxis(String axisName, SubsystemID subsystemID){
         SubsystemCollection requestedSystem = subsystemCollections.get(subsystemID.name());
         if(requestedSystem == null){
-            System.out.println("Axis not found. Subsystem not registered on requested controller.");
+            System.out.println("Axis not found. Subsystem :"+subsystemID.name()+" not registered on requested controller.");
             return 0.0;
         }
         String requestedAxis = requestedSystem.axes.get(axisName);
         if(requestedAxis == null){
-            System.out.println("Axis not found. Axis not registered for requested subsystem.");
+            System.out.println("Axis not found. Subsystem :"+subsystemID.name()+" not registered on requested controller.");
             return 0.0;
         }
         return controller.getAxis(requestedAxis);

@@ -13,4 +13,8 @@ public class SparkController implements MotorBase{
     public void set(double speed){
         controller.set(speed);
     };
+
+    public void setInverted(boolean invert){
+        controller.setInverted(invert);
+    }
 }
