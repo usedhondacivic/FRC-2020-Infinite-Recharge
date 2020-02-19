@@ -23,6 +23,7 @@
         </CLIMBER>
         <INTAKE>
             <button button="X" function="INDEX"></button>
+            <button button="A" function="SHOOT"></button>
         </INTAKE>
         <PANNEL>
             <button button="Y" function="ACTIVATE"></button>

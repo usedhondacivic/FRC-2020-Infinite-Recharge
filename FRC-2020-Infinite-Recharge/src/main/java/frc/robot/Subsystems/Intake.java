@@ -9,8 +9,8 @@ public class Intake implements Subsystem{
     private Out output = new Out(SubsystemID.INTAKE);
 
     private double intakeSpeed = Double.parseDouble(output.getAttribute("intake_speed"));
-    private double indexer_speed = Double.parseDouble(output.getAttribute("indexer_speed"));
-    private double kicker_speed = Double.parseDouble(output.getAttribute("kicker_Speed"));
+    private double hopperSpeed = Double.parseDouble(output.getAttribute("hopper_speed"));
+    private double kickerSpeed = Double.parseDouble(output.getAttribute("kicker_Speed"));
 
     @Override
     public void robotInit() {
@@ -40,7 +40,19 @@ public class Intake implements Subsystem{
     @Override
     public void teleopPeriodic() {
         if(input.getButton("INTAKE_IN", "DRIVE")){
+            output.setMotor("INTAKE_WHEELS", intakeSpeed);
+            output.setMotor("HOPPER", hopperSpeed);
+        }else{
+            output.setMotor("INTAKE_WHEELS", 0);
+            output.setMotor("HOPPER", 0);
+        }
 
+        if(input.getButton("SHOOT", "OPERATOR")){
+            output.setMotor("KICKER_WHEEL", kickerSpeed);
+            output.setMotor("HOPPER", hopperSpeed);
+        }else{
+            output.setMotor("KICKER_WHEEL", 0);
+            output.setMotor("HOPPER", 0);
         }
     }
 }

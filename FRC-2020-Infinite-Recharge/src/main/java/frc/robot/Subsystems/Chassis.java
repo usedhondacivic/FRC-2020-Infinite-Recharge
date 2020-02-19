@@ -42,7 +42,8 @@ public class Chassis implements Subsystem{
         }else{
             speedMod = normalSpeed;
         }
-        output.setMotor("LEFT_SIDE", input.getAxis("LEFT_SPEED", "DRIVE"));
-        output.setMotor("RIGHT_SIDE", input.getAxis("RIGHT_SPEED", "DRIVE"));
+        
+        output.setMotor("LEFT_SIDE", input.getAxis("LEFT_SPEED", "DRIVE") * speedMod);
+        output.setMotor("RIGHT_SIDE", input.getAxis("RIGHT_SPEED", "DRIVE") * speedMod);
     }
 }

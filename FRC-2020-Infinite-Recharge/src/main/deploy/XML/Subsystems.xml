@@ -18,10 +18,10 @@
     <CLIMBER speed="1">
         <motor id="WINCH" controller="TALON" port="7"></motor>
     </CLIMBER>
-    <INTAKE intake_speed="0.8" indexer_speed="0.5" kicker_speed="0.7">
+    <INTAKE intake_speed="0.8" hopper_speed="0.5" kicker_speed="0.7">
         <solenoid id="INTAKE_RAISE" type="SINGLE" port="1"></solenoid>
         <motor id="INTAKE_WHEELS" controller="TALON" port="8"></motor>
-        <motor id="INDEXER" controller="TALON" port="9"></motor>
+        <motor id="HOPPER" controller="TALON" port="9"></motor>
         <motor id="KICKER_WHEEL" controller="TALON" port="10"></motor>
     </INTAKE>
     <PANNEL speed="0.5">

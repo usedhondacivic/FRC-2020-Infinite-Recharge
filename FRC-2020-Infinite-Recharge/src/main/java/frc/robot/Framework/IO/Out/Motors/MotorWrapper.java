@@ -5,6 +5,7 @@ import org.w3c.dom.*;
 import frc.robot.Framework.IO.Out.Motors.MotorBase;
 import frc.robot.Framework.IO.Out.Motors.MotorTypes.MotorGroup;
 import frc.robot.Framework.IO.Out.Motors.MotorTypes.SparkController;
+import frc.robot.Framework.IO.Out.Motors.MotorTypes.TalonController;
 
 public class MotorWrapper implements MotorBase{
 
@@ -19,6 +20,11 @@ public class MotorWrapper implements MotorBase{
 
         if(motor == null){
             System.out.println("For motor: "+id+" motor controller type: "+motorElement.getAttribute("controller")+" was not found!");
+            return;
+        }
+
+        if(motorElement.hasAttribute("inverted")){
+            motor.setInverted(true);
         }
     }
 
@@ -32,6 +38,9 @@ public class MotorWrapper implements MotorBase{
                 Element motorElement = (Element)currentMotor;
                 int port = Integer.parseInt(motorElement.getAttribute("port"));
                 MotorBase controllerType = getMotorType(motorElement.getAttribute("controller"), port);
+                if(motorElement.hasAttribute("inverted")){
+                    controllerType.setInverted(true);
+                }
 
                 if(controllerType != null){
                     group.addMotor(new MotorWrapper(motorElement));
@@ -47,6 +56,8 @@ public class MotorWrapper implements MotorBase{
     private MotorBase getMotorType(String controllerType, int port){
         if(controllerType.equals("SPARK")){
             return new SparkController(port);
+        }else if(controllerType.equals("TALON")){
+            return new TalonController(port);
         }else{
             return null;
         }

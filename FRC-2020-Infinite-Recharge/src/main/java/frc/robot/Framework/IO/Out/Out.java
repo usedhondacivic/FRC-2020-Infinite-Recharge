@@ -44,8 +44,7 @@ public class Out {
             return systemElement.getAttribute(attribute);
         }
     }
-
-
+ 
     public static void Init(String xmlPath){
         parser = new XMLParser("/home/deploy/"+xmlPath);
         Element root = parser.getRootElement();
