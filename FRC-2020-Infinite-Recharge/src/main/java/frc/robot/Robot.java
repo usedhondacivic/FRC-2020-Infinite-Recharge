@@ -2,22 +2,22 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.Framework.Subsystems;
-import frc.robot.Subsystems.Chassis;
-import frc.robot.Subsystems.Shooter;
-import frc.robot.Subsystems.Climber;
-import frc.robot.Subsystems.Intake;
+import frc.robot.Subsystems.*;
 import frc.robot.Framework.IO.In.In;
+import frc.robot.Framework.IO.Out.Out;
 
 public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
     In.Init("XML/Controls/Michael.xml", "XML/Subsystems.xml");
+    Out.Init("XML/Subsystems.xml");
     Subsystems.add(new Chassis());
     //Subsystems.add(new Shooter());
-    //Subsystems.add(new Climber());
-    //Subsystems.add(new Intake());
-    //Subsystems.robotInit();
+    Subsystems.add(new Climber());
+    Subsystems.add(new ColorWheel());
+    Subsystems.add(new Intake());
+    Subsystems.robotInit();
   }
 
   @Override

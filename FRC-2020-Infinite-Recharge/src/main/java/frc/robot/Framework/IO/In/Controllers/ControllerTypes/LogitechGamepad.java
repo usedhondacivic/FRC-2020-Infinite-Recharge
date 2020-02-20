@@ -34,7 +34,6 @@ public class LogitechGamepad implements ControllerBase{
     }
 
     public boolean getButton(String id){
-        System.out.println("Button: "+id+" pressed.");
         return controller.getRawButton(buttonIDs.get(id));
     }
 

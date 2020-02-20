@@ -10,13 +10,16 @@ import java.util.HashMap;
 
 import org.w3c.dom.*;
 
+import edu.wpi.first.wpilibj.Compressor;
+
 public class Out {
     private static XMLParser parser;
     private static Map<String, SubsystemCollection> subsystemCollections = new HashMap<>();
+    private static Compressor compressor;
 
     private static class SubsystemCollection {
         public Map<String, MotorWrapper> motors = new HashMap<>();
-        public Map<String, SolenoidWrapper> soleniods = new HashMap<>();
+        public Map<String, SolenoidWrapper> solenoids = new HashMap<>();
         private Element systemElement;
 
         public SubsystemCollection(Element system) {
@@ -34,7 +37,11 @@ public class Out {
                         motors.put(id, new MotorWrapper(childElement, true));
                     } else if (childElement.getTagName().equals("solenoid")) {
                         String id = childElement.getAttribute("id");
-                        soleniods.put(id, new SolenoidWrapper(childElement));
+                        solenoids.put(id, new SolenoidWrapper(childElement));
+                    }else if(childElement.getTagName().equals("compressor")){
+                        compressor = new Compressor();
+                    }else{
+                        System.out.println("Output type: "+childElement.getTagName()+" on subsystem: "+system.getTagName()+" doesn't exist.");
                     }
                 }
             }
@@ -46,7 +53,7 @@ public class Out {
     }
  
     public static void Init(String xmlPath){
-        parser = new XMLParser("/home/deploy/"+xmlPath);
+        parser = new XMLParser("/home/lvuser/deploy/"+xmlPath);
         Element root = parser.getRootElement();
         NodeList subsystemList = root.getChildNodes();
         for(int i = 0; i < subsystemList.getLength(); i++){
@@ -76,6 +83,20 @@ public class Out {
             return;
         }
         requestedMotor.set(setpoint);
+    }
+
+    public void setSolenoid(String name, boolean extended){
+        SubsystemCollection requestedSystem = subsystemCollections.get(id.name());
+        if(requestedSystem == null){
+            System.out.println("Solenoid not found. Subsystem: "+id.name()+" not registered for output.");
+            return;
+        }
+        SolenoidWrapper requestedSolenoid = requestedSystem.solenoids.get(name);
+        if(requestedSolenoid == null){
+            System.out.println("Motor not found. Subsystem: "+id.name()+" not registered for output.");
+            return;
+        }
+        requestedSolenoid.set(extended);
     }
 
     public String getAttribute(String attribute){

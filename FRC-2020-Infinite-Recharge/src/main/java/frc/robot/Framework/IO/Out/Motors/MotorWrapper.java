@@ -24,7 +24,7 @@ public class MotorWrapper implements MotorBase{
         }
 
         if(motorElement.hasAttribute("inverted")){
-            motor.setInverted(true);
+            motor.setInverted(Boolean.parseBoolean(motorElement.getAttribute("inverted")));
         }
     }
 
@@ -38,9 +38,6 @@ public class MotorWrapper implements MotorBase{
                 Element motorElement = (Element)currentMotor;
                 int port = Integer.parseInt(motorElement.getAttribute("port"));
                 MotorBase controllerType = getMotorType(motorElement.getAttribute("controller"), port);
-                if(motorElement.hasAttribute("inverted")){
-                    controllerType.setInverted(true);
-                }
 
                 if(controllerType != null){
                     group.addMotor(new MotorWrapper(motorElement));
@@ -51,6 +48,9 @@ public class MotorWrapper implements MotorBase{
             }
         }
         motor = group;
+        if(groupElement.hasAttribute("inverted")){
+            motor.setInverted(Boolean.parseBoolean(groupElement.getAttribute("inverted")));
+        }
     }
 
     private MotorBase getMotorType(String controllerType, int port){

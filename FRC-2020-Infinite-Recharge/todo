@@ -5,6 +5,8 @@ Framework:
     Pathweaver implementation
     Auto selection
     Logging
+    Reflection
+    Static out
 
 Subsystems:
     Everything

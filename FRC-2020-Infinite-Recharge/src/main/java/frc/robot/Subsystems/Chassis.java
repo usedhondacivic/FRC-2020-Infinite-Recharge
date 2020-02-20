@@ -34,16 +34,20 @@ public class Chassis implements Subsystem{
     }
 
     public void teleopPeriodic(){
-        System.out.println("Drive left speed: "+input.getAxis("LEFT_SPEED", "DRIVE")+".");
-        if(input.getAxis("MODE_SLOW", "DRIVE") < -0.7f){
+        if(input.getAxis("MODE_SLOW", "DRIVE") > 0.7f){
             speedMod = slowSpeed;
-        }else if(input.getAxis("MODE_FAST", "DRIVE") < -0.7f){
+        }else if(input.getAxis("MODE_FAST", "DRIVE") > 0.7f){
             speedMod = fastSpeed;
         }else{
             speedMod = normalSpeed;
         }
-        
+
         output.setMotor("LEFT_SIDE", input.getAxis("LEFT_SPEED", "DRIVE") * speedMod);
         output.setMotor("RIGHT_SIDE", input.getAxis("RIGHT_SPEED", "DRIVE") * speedMod);
+        
+        /*output.setMotor("LEFT_SIDE_FRONT", input.getAxis("LEFT_SPEED", "DRIVE") * speedMod);
+        output.setMotor("RIGHT_SIDE_FRONT", input.getAxis("RIGHT_SPEED", "DRIVE") * speedMod);
+        output.setMotor("LEFT_SIDE_BACK", input.getAxis("LEFT_SPEED", "DRIVE") * speedMod);
+        output.setMotor("RIGHT_SIDE_BACK", input.getAxis("RIGHT_SPEED", "DRIVE") * speedMod);*/
     }
 }

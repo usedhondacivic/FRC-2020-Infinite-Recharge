@@ -14,7 +14,8 @@ public class TalonController implements MotorBase{
     }
 
     public void set(double speed){
-        controller.set(ControlMode.PercentOutput, 0);
+        //System.out.println("Talon commanded to: "+speed);
+        controller.set(ControlMode.PercentOutput, speed);
     };
 
     public void setInverted(boolean invert){
