@@ -13,14 +13,11 @@ import org.w3c.dom.*;
 public class In{
     private static Map<String, ControllerWrapper> controllers = new HashMap<>();
 
-    public static void Init(String controlPath, String sensorPath){
+    public static void Init(String controlPath){
         XMLParser parser = new XMLParser("/home/lvuser/deploy/"+controlPath);
         Element root = parser.getRootElement();
         NodeList controllerList = root.getElementsByTagName("controller");
         initControllers(controllerList);
-
-        NodeList sensorList = root.getElementsByTagName("sensor");
-        initSensors(sensorList);
     };
 
     private static void initControllers(NodeList controllerList){

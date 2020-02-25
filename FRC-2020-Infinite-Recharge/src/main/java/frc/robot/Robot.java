@@ -13,7 +13,7 @@ public class Robot extends TimedRobot {
     In.Init("XML/Controls/Michael.xml", "XML/Subsystems.xml");
     Out.Init("XML/Subsystems.xml");
     Subsystems.add(new Chassis());
-    //Subsystems.add(new Shooter());
+    Subsystems.add(new Shooter());
     Subsystems.add(new Climber());
     Subsystems.add(new ColorWheel());
     Subsystems.add(new Intake());

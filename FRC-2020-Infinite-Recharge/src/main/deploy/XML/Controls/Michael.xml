@@ -6,16 +6,18 @@
             <axis axis="RIGHT_TRIGGER" function="MODE_FAST"></axis>
             <axis axis="RIGHT_JOYSTICK_Y" function="RIGHT_SPEED"></axis>
             <axis axis="LEFT_JOYSTICK_Y" function="LEFT_SPEED"></axis>
+            <button button="Y" function="CAMERA_AIM"></button>
         </CHASSIS>
         <INTAKE>
             <button button="RIGHT_SHOULDER" function="INTAKE_IN"></button>
+            <button button="LEFT_SHOULDER" function="INTAKE_OUT"></button>
         </INTAKE>
     </controller>
     <controller type="LOGITECH" port="1" id="OPERATOR">
         <SHOOTER>
-            <axis button="RIGHT_TRIGGER" function="REV_UP"></axis>
+            <axis axis="RIGHT_TRIGGER" function="REV_UP"></axis>
             <button button="A" function="SHOOT"></button>
-            <button button="LEFT_JOYSTICK_X" function="TURRET_AIM"></button>
+            <axis axis="LEFT_JOYSTICK_X" function="TURRET_AIM"></axis>
         </SHOOTER>
         <CLIMBER>
             <button button="LEFT_SHOULDER" function="EXTEND"></button>
@@ -24,10 +26,11 @@
         <INTAKE>
             <button button="X" function="INDEX"></button>
             <button button="A" function="SHOOT"></button>
-            <button button="B" function="RAISE"></button>
+            <button button="Y" function="UNJAM"></button>
+            <button button="BACK" function="RAISE"></button>
         </INTAKE>
         <PANEL>
-            <button button="Y" function="ACTIVATE"></button>
+            <button button="B" function="ACTIVATE"></button>
         </PANEL>
     </controller>
 </robot>

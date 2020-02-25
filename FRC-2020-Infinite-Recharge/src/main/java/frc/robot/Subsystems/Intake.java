@@ -48,6 +48,8 @@ public class Intake implements Subsystem{
         if(input.getButton("INTAKE_IN", "DRIVE")){
             output.setMotor("INTAKE_WHEELS", intakeSpeed);
             output.setMotor("HOPPER", hopperSpeed);
+        }else if(input.getButton("INTAKE_OUT", "DRIVE")){
+            output.setMotor("INTAKE_WHEELS", -intakeSpeed);
         }else{
             output.setMotor("INTAKE_WHEELS", 0);
             output.setMotor("HOPPER", 0);
@@ -56,6 +58,9 @@ public class Intake implements Subsystem{
         if(input.getButton("SHOOT", "OPERATOR")){
             output.setMotor("KICKER_WHEEL", kickerSpeed);
             output.setMotor("HOPPER", hopperSpeed);
+        }else if(input.getButton("UNJAM", "OPERATOR")){
+            output.setMotor("KICKER_WHEEL", -kickerSpeed);
+            output.setMotor("HOPPER", -hopperSpeed);
         }else{
             output.setMotor("KICKER_WHEEL", 0);
             output.setMotor("HOPPER", 0);

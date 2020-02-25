@@ -4,8 +4,10 @@ import frc.robot.Framework.IO.Out.Motors.MotorWrapper;
 import frc.robot.Framework.IO.Out.Solenoids.SolenoidWrapper;
 import frc.robot.Framework.Util.XMLParser;
 import frc.robot.Subsystems.SubsystemID;
+import frc.robot.Framework.Util.CommandMode;
 
 import java.util.Map;
+
 import java.util.HashMap;
 
 import org.w3c.dom.*;
@@ -83,6 +85,34 @@ public class Out {
             return;
         }
         requestedMotor.set(setpoint);
+    }
+
+    public void setMotor(String name, double setpoint, CommandMode mode){
+        SubsystemCollection requestedSystem = subsystemCollections.get(id.name());
+        if(requestedSystem == null){
+            System.out.println("Motor not found. Subsystem: "+id.name()+" not registered for output.");
+            return;
+        }
+        MotorWrapper requestedMotor = requestedSystem.motors.get(name);
+        if(requestedMotor == null){
+            System.out.println("Motor not found. Subsystem: "+id.name()+" not registered for output.");
+            return;
+        }
+        requestedMotor.set(setpoint, mode);
+    }
+
+    public void setPID(String name, double kP, double kI, double kD, double kF){
+        SubsystemCollection requestedSystem = subsystemCollections.get(id.name());
+        if(requestedSystem == null){
+            System.out.println("Motor not found. Subsystem: "+id.name()+" not registered for output.");
+            return;
+        }
+        MotorWrapper requestedMotor = requestedSystem.motors.get(name);
+        if(requestedMotor == null){
+            System.out.println("Motor not found. Subsystem: "+id.name()+" not registered for output.");
+            return;
+        }
+        requestedMotor.setPID(kP, kI, kD, kF);
     }
 
     public void setSolenoid(String name, boolean extended){
