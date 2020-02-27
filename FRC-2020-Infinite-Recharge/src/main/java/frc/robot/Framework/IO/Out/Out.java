@@ -93,6 +93,11 @@ public class Out {
         return requestedMotor.getVelocity();
     }
 
+    public double getPosition(String name){
+        MotorWrapper requestedMotor = getMotor(name);
+        return requestedMotor.getVelocity();
+    }
+
     private MotorWrapper getMotor(String name){
         SubsystemCollection requestedSystem = subsystemCollections.get(id.name());
         if(requestedSystem == null){

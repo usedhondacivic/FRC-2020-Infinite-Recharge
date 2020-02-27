@@ -10,6 +10,7 @@ public class DIOEncoder implements EncoderBase{
 
     public DIOEncoder(int portOne, int portTwo, boolean inverted, EncodingType type){
         encoder = new Encoder(portOne, portTwo, inverted, type);
+        encoder.setDistancePerPulse(1);
     }
 
     @Override
@@ -24,6 +25,7 @@ public class DIOEncoder implements EncoderBase{
 
     @Override
     public double getPosition() {
+        System.out.println(encoder.getDistance());
         return encoder.getDistance();
     }
     

@@ -1,5 +1,6 @@
 package frc.robot.Subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Framework.Subsystem;
 import frc.robot.Framework.IO.In.In;
 import frc.robot.Framework.IO.Out.Out;
@@ -41,7 +42,8 @@ public class Shooter implements Subsystem{
     }
 
     public void teleopPeriodic(){
-        System.out.println(output.getVelocity("SHOOTER_WHEEL"));
+        SmartDashboard.putNumber("Turret position", output.getPosition("TURRET_AIM"));
+        SmartDashboard.putNumber("Shooter velocity",output.getVelocity("SHOOTER_WHEEL"));
         if(input.getAxis("REV_UP", "OPERATOR") > 0.7f){
             if(currentShot == setShots.CLOSE){
                 output.setMotor("SHOOTER_WHEEL", closeSpeed);

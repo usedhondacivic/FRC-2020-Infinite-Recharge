@@ -1,6 +1,7 @@
 package frc.robot.Subsystems;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import frc.robot.Framework.Subsystem;
 import frc.robot.Framework.IO.In.In;
@@ -42,8 +43,9 @@ public class Chassis implements Subsystem{
     }
 
     public void teleopPeriodic(){
+        SmartDashboard.putNumber("Left side position", output.getPosition("LEFT_SIDE"));
         double targetFound = cameraTable.getEntry("tv").getDouble(0);
-        System.out.println("Target found: "+targetFound);
+        //System.out.println("Target found: "+targetFound);
         if(input.getButton("CAMERA_AIM", "DRIVE") && targetFound == 1){
             double tx = cameraTable.getEntry("tx").getDouble(0);
             double steerAdjust = 0.0f;
