@@ -7,16 +7,16 @@
         <group id="LEFT_SIDE" inverted="true">
             <motor controller="TALON" port="8"></motor>
             <motor controller="TALON" port="9"></motor>
-            <encoder type="TOUGH_BOX" port_one="0" port_two="1">
+            <encoder type="DIO" port_one="0" port_two="1">
                 <pid type="VELOCITY" kP="0.001" kI="0" kD="0"></pid>
             </encoder>
         </group>
         <group id="RIGHT_SIDE" inverted="true">
             <motor controller="TALON" port="0"></motor>
             <motor controller="TALON" port="1"></motor>
-            <encoder type="TOUGH_BOX" port_one="2" port_two="3" distance_per_pulse="1">
-                <pid type="VELOCITY" kP="0.001" kI="0" kD="0"></pid>
-            </encoder>
+            <!--<encoder type="DIO" port_one="2" port_two="3" distance_per_pulse="1">
+                <pid type="VELOCITY" kP="0.001" kI="0" kD="0" kF="0"></pid>
+            </encoder>-->
         </group>
         <!--<motor id="LEFT_SIDE_FRONT" controller="TALON" port="8"></motor>
         <motor id="LEFT_SIDE_BACK" controller="TALON" port="9"></motor>
@@ -25,19 +25,22 @@
     </CHASSIS>
     <SHOOTER close_speed="0.5" trench_speed="3750" color_wheel_speed="0.9">
         <motor id="SHOOTER_WHEEL" controller="SPARK_MAX" port="10" inverted="true">
-            <encoder type="NEO" port_one="0" port_two="0"></encoder>
-            <pid name="VELOCITY" kP="0.001" kI="0" kD="0" kF="0"></pid>
+            <encoder type="NEO" port_one="0" port_two="0">
+                <pid name="VELOCITY" kP="0.001" kI="0" kD="0" kF="0"></pid>
+            </encoder>
         </motor>
         <motor id="TURRET_AIM" controller="TALON" port="6">
-            <encoder type="775" port_one="8" port_two="9" distance_per_pulse="1"></encoder>
-            <pid name="POSITION" kP="0.001" kI="0" kD="0" kF="0"></pid>
+            <!--<encoder type="775" port_one="8" port_two="9" distance_per_pulse="1">
+                <pid name="POSITION" kP="0.001" kI="0" kD="0" kF="0"></pid>
+            </encoder>
+            -->
         </motor>
         <solenoid id="HOOD_ADJUST" type="SINGLE" port="1"></solenoid>
     </SHOOTER>
     <CLIMBER speed="1">
         <!--<motor id="WINCH" controller="TALON" port="7"></motor>-->
     </CLIMBER>
-    <INTAKE intake_speed="0.5" hopper_speed="0.8" kicker_speed="1">
+    <INTAKE intake_speed="1" hopper_speed="0.8" kicker_speed="1">
         <solenoid id="INTAKE_RAISE" type="SINGLE" port="2"></solenoid>
         <motor id="INTAKE_WHEELS" controller="TALON" port="4" inverted="true"></motor>
         <motor id="HOPPER" controller="TALON" port="2" inverted="true"></motor>

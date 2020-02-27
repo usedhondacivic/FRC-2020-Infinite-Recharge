@@ -41,8 +41,8 @@ public class Shooter implements Subsystem{
     }
 
     public void teleopPeriodic(){
+        System.out.println(output.getVelocity("SHOOTER_WHEEL"));
         if(input.getAxis("REV_UP", "OPERATOR") > 0.7f){
-            System.out.println("SHOOTING");
             if(currentShot == setShots.CLOSE){
                 output.setMotor("SHOOTER_WHEEL", closeSpeed);
             }else if(currentShot == setShots.TRENCH){

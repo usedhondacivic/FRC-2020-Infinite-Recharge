@@ -74,45 +74,38 @@ public class Out {
     };
 
     public void setMotor(String name, double setpoint){
-        SubsystemCollection requestedSystem = subsystemCollections.get(id.name());
-        if(requestedSystem == null){
-            System.out.println("Motor not found. Subsystem: "+id.name()+" not registered for output.");
-            return;
-        }
-        MotorWrapper requestedMotor = requestedSystem.motors.get(name);
-        if(requestedMotor == null){
-            System.out.println("Motor not found. Subsystem: "+id.name()+" not registered for output.");
-            return;
-        }
+        MotorWrapper requestedMotor = getMotor(name);
         requestedMotor.set(setpoint);
     }
 
     public void setMotor(String name, double setpoint, CommandMode mode){
-        SubsystemCollection requestedSystem = subsystemCollections.get(id.name());
-        if(requestedSystem == null){
-            System.out.println("Motor not found. Subsystem: "+id.name()+" not registered for output.");
-            return;
-        }
-        MotorWrapper requestedMotor = requestedSystem.motors.get(name);
-        if(requestedMotor == null){
-            System.out.println("Motor not found. Subsystem: "+id.name()+" not registered for output.");
-            return;
-        }
+        MotorWrapper requestedMotor = getMotor(name);
         requestedMotor.set(setpoint, mode);
     }
 
     public void setPID(String name, double kP, double kI, double kD, double kF){
+        MotorWrapper requestedMotor = getMotor(name);
+        requestedMotor.setPID(kP, kI, kD, kF);
+    }
+
+    public double getVelocity(String name){
+        MotorWrapper requestedMotor = getMotor(name);
+        return requestedMotor.getVelocity();
+    }
+
+    private MotorWrapper getMotor(String name){
         SubsystemCollection requestedSystem = subsystemCollections.get(id.name());
         if(requestedSystem == null){
             System.out.println("Motor not found. Subsystem: "+id.name()+" not registered for output.");
-            return;
+            return null;
         }
         MotorWrapper requestedMotor = requestedSystem.motors.get(name);
         if(requestedMotor == null){
             System.out.println("Motor not found. Subsystem: "+id.name()+" not registered for output.");
-            return;
+            return null;
         }
-        requestedMotor.setPID(kP, kI, kD, kF);
+
+        return requestedMotor;
     }
 
     public void setSolenoid(String name, boolean extended){

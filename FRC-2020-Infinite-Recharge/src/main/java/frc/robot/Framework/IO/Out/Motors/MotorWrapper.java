@@ -19,8 +19,6 @@ public class MotorWrapper implements MotorBase{
 
     private EncoderWrapper encoder;
 
-    private PIDController pidController = new PIDController();
-
     public MotorWrapper(Element element) {
         motorElement = element;
         String id = motorElement.getAttribute("id");
@@ -35,6 +33,8 @@ public class MotorWrapper implements MotorBase{
         if (motorElement.hasAttribute("inverted")) {
             motor.setInverted(Boolean.parseBoolean(motorElement.getAttribute("inverted")));
         }
+        
+        parseEncoder(element);
     }
 
     public MotorWrapper(Element groupElement, boolean groupFlag) {
@@ -61,7 +61,20 @@ public class MotorWrapper implements MotorBase{
         if (groupElement.hasAttribute("inverted")) {
             motor.setInverted(Boolean.parseBoolean(groupElement.getAttribute("inverted")));
         }
+        
+        parseEncoder(groupElement);
     }
+
+    private void parseEncoder(Element motorElement){
+        NodeList encoderNodes = motorElement.getElementsByTagName("encoder");
+        for (int o = 0; o < encoderNodes.getLength(); o++) {
+            Node currentEncoder = encoderNodes.item(o);
+            if (currentEncoder.getNodeType() == Node.ELEMENT_NODE) {
+                Element encoderElement = (Element) currentEncoder;
+                encoder = new EncoderWrapper(encoderElement, this);
+            }
+        }
+    }  
 
     private MotorBase getMotorType(String controllerType, int port) {
         if (controllerType.equals("SPARK")) {
@@ -70,32 +83,6 @@ public class MotorWrapper implements MotorBase{
             return new TalonController(port);
         } else if(controllerType.equals("SPARK_MAX")){
             return new SparkMaxController(port);
-        }else{
-            return null;
-        }
-    }
-
-    private void parseEncoder(Element motor){
-        NodeList encoders = motor.getElementsByTagName("encoder");
-        for (int i = 0; i< encoders.getLength(); i++) {
-            Node currentEncoder = encoders.item(i);
-            if (currentEncoder.getNodeType() == Node.ELEMENT_NODE) {
-                Element encoderElement = (Element) currentEncoder;
-                String type = encoderElement.getAttribute("type");
-                int portOne = Integer.parseInt(encoderElement.getAttribute("port_one"));
-                int portTwo = Integer.parseInt(encoderElement.getAttribute("port_one"));
-                encoder = new EncoderWrapper(getEncoderType(type, portOne, portTwo));
-            }
-        }
-    }
-
-    private EncoderBase getEncoderType(String encoderType, int portOne, int portTwo){
-        if (encoderType.equals("TOUGH_BOX")) {
-            return ;
-        }else if(encoderType.equals("NEO")){
-            return ;
-        }else if(encoderType.equals("775")){
-
         }else{
             return null;
         }
@@ -121,5 +108,21 @@ public class MotorWrapper implements MotorBase{
     @Override
     public void setPID(double kP, double kI, double kD, double kF) {
         motor.setPID(kP, kI, kD, kF);
+    }
+
+    public MotorBase getMotor(){
+        return motor;
+    }
+
+    public int getTicks(){
+        return encoder.getTicks();
+    }
+
+    public double getVelocity(){
+        return encoder.getVelocity();
+    }
+
+    public double getPosition(){
+        return encoder.getPosition();
     }
 }

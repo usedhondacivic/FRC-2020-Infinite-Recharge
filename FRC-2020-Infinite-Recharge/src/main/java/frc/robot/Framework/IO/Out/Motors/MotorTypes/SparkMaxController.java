@@ -35,7 +35,7 @@ public class SparkMaxController implements MotorBase{
             set(setpoint);
         }else if(mode == CommandMode.VELOCITY){
             pidController.setReference(setpoint, ControlType.kVelocity);
-            System.out.println("Setpoint: "+setpoint+" | Actual: "+encoder.getVelocity());
+            //System.out.println("Setpoint: "+setpoint+" | Actual: "+encoder.getVelocity());
         }else{
 
         }
@@ -51,5 +51,9 @@ public class SparkMaxController implements MotorBase{
         SmartDashboard.putNumber("KD", kD);
         pidController.setFF(kF);
         SmartDashboard.putNumber("kF", kF);
+    }
+
+    public CANSparkMax getCANObject(){
+        return controller;
     }
 }
