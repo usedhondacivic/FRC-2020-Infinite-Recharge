@@ -3,7 +3,7 @@
     <GENERIC>
         <compressor></compressor>
     </GENERIC>
-    <CHASSIS slow="0.6" normal="0.8" fast="1">
+    <CHASSIS slow="0.4" normal="0.8" fast="1">
         <group id="LEFT_SIDE" inverted="true">
             <motor controller="TALON" port="8"></motor>
             <motor controller="TALON" port="9"></motor>
@@ -11,7 +11,7 @@
                 <pid type="VELOCITY" kP="0.001" kI="0" kD="0" kF="0"></pid>
             </encoder>
         </group>
-        <group id="RIGHT_SIDE" inverted="true">
+        <group id="RIGHT_SIDE" inverted="false">
             <motor controller="TALON" port="0"></motor>
             <motor controller="TALON" port="1"></motor>
             <!--<encoder type="DIO" port_one="2" port_two="3" distance_per_pulse="1">
@@ -23,27 +23,28 @@
         <motor id="RIGHT_SIDE_FRONT" controller="TALON" port="0"></motor>
         <motor id="RIGHT_SIDE_BACK" controller="TALON" port="1"></motor>-->
     </CHASSIS>
-    <SHOOTER close_speed="0.5" trench_speed="3750" color_wheel_speed="0.5">
+    <SHOOTER close_speed="0.5" trench_speed="4600" color_wheel_speed="0.5">
         <motor id="SHOOTER_WHEEL" controller="SPARK_MAX" port="10" inverted="true">
             <encoder type="NEO" port_one="0" port_two="0">
                 <pid name="VELOCITY" kP="0.001" kI="0" kD="0" kF="0"></pid>
             </encoder>
         </motor>
-        <motor id="TURRET_AIM" controller="TALON" port="6">
-            <encoder type="775" port_one="0" port_two="1" distance_per_pulse="1">
+        <motor id="TURRET_AIM" controller="TALON" port="6" inverted="true">
+            <!--<encoder type="775" port_one="0" port_two="1" distance_per_pulse="1">
                 <pid name="POSITION" kP="0.001" kI="0" kD="0" kF="0"></pid>
-            </encoder>
+            </encoder>-->
         </motor>
         <solenoid id="HOOD_ADJUST" type="SINGLE" port="1"></solenoid>
     </SHOOTER>
     <CLIMBER speed="1">
-        <!--<motor id="WINCH" controller="TALON" port="7"></motor>-->
+        <motor id="WINCH_LEFT" controller="TALON" port="11"></motor>
+        <motor id="WINCH_RIGHT" controller="TALON" port="3"></motor>
     </CLIMBER>
-    <INTAKE intake_speed="1" hopper_speed="0.8" kicker_speed="1">
+    <INTAKE intake_speed="1" hopper_speed="0.3" kicker_speed="0.8">
         <solenoid id="INTAKE_RAISE" type="SINGLE" port="2"></solenoid>
         <motor id="INTAKE_WHEELS" controller="TALON" port="4" inverted="true"></motor>
-        <motor id="HOPPER" controller="TALON" port="2" inverted="true"></motor>
-        <motor id="KICKER_WHEEL" controller="TALON" port="3"></motor>
+        <motor id="HOPPER" controller="TALON" port="5" inverted="true"></motor>
+        <motor id="KICKER_WHEEL" controller="TALON" port="2"></motor>
     </INTAKE>
     <PANEL speed="0.4">
         <motor id="PANEL_SPINNER" controller="TALON" port="7"></motor>

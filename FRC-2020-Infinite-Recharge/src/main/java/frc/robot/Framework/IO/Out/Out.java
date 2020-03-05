@@ -95,7 +95,12 @@ public class Out {
 
     public double getPosition(String name){
         MotorWrapper requestedMotor = getMotor(name);
-        return requestedMotor.getVelocity();
+        return requestedMotor.getPosition();
+    }
+
+    public void resetEncoder(String name){
+        MotorWrapper requestedMotor = getMotor(name);
+        requestedMotor.resetEncoder();
     }
 
     private MotorWrapper getMotor(String name){

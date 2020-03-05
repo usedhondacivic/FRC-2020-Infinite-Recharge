@@ -25,8 +25,11 @@ public class DIOEncoder implements EncoderBase{
 
     @Override
     public double getPosition() {
-        System.out.println(encoder.getDistance());
         return encoder.getDistance();
+    }
+
+    public void reset(){
+        encoder.reset();
     }
     
 }

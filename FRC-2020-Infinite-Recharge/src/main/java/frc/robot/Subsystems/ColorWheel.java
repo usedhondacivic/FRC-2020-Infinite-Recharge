@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.DriverStation;
 import com.revrobotics.ColorSensorV3;
 
-public class ColorWheel implements Subsystem{
+public class ColorWheel implements Subsystem {
     private In input = new In(SubsystemID.PANEL);
     private Out output = new Out(SubsystemID.PANEL);
 
@@ -42,16 +42,16 @@ public class ColorWheel implements Subsystem{
 
     @Override
     public void teleopPeriodic() {
-        if(input.getButton("ACTIVATE", "OPERATOR")){
+        if (input.getButton("ACTIVATE", "OPERATOR")) {
             output.setSolenoid("PANEL_RAISE", true);
             output.setMotor("PANEL_SPINNER", spinnerSpeed);
-        }else{
+        } else {
             output.setSolenoid("PANEL_RAISE", false);
             output.setMotor("PANEL_SPINNER", 0);
         }
     }
 
-    /*public static class FieldColor {
+    public static class FieldColor {
         static int INVALID = -1;
         int RED = 0;
         int YELLOW = 1;
@@ -70,10 +70,11 @@ public class ColorWheel implements Subsystem{
     private char gameData;
     private final I2C.Port i2cPort = I2C.Port.kOnboard;
     private final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
-    Color detectedColor = colorSensor.getColor();
-    int proximity = colorSensor.getProximity();
 
     public int colorCorrection() {
+
+        Color detectedColor = colorSensor.getColor();
+        int proximity = colorSensor.getProximity();
         // Push to smart dashboard
         SmartDashboard.putNumber("Red", detectedColor.red);
         SmartDashboard.putNumber("Green", detectedColor.green);
@@ -107,39 +108,38 @@ public class ColorWheel implements Subsystem{
         }
     }
 
-    //MOD math for movement modification
+    // MOD math for movement modification
     public static int colorMovement(Integer sensorColor, Integer targetColor) {
-		System.out.println(targetColor + ", " + sensorColor + " = " + (targetColor - sensorColor));
-		System.out.println((targetColor - sensorColor) + " % 2 = " + (targetColor - sensorColor) % 2);
-		if (sensorColor == FieldColor.INVALID) {
-			System.out.println("Invalid");
-			return 0;
-		}
-		int i = targetColor - sensorColor;
-		if (i == 0) {
-			System.out.println("Same Color");
-			return 0;
-		}
-		if (i % 2 == 0) {
-			System.out.println("Faster Either Way");
-			return 1;
-		}
-		if (i == -1) {
-			System.out.println("One Away Positive");
-			return 1;
-		}
-		if (i == 1) {
-			System.out.println("Own Away Negitive");
-			return -1;
-		}
-		System.out.println("Basic Case");
-		return i % 2;
-	}
-
+        System.out.println(targetColor + ", " + sensorColor + " = " + (targetColor - sensorColor));
+        System.out.println((targetColor - sensorColor) + " % 2 = " + (targetColor - sensorColor) % 2);
+        if (sensorColor == FieldColor.INVALID) {
+            System.out.println("Invalid");
+            return 0;
+        }
+        int i = targetColor - sensorColor;
+        if (i == 0) {
+            System.out.println("Same Color");
+            return 0;
+        }
+        if (i % 2 == 0) {
+            System.out.println("Faster Either Way");
+            return 1;
+        }
+        if (i == -1) {
+            System.out.println("One Away Positive");
+            return 1;
+        }
+        if (i == 1) {
+            System.out.println("Own Away Negitive");
+            return -1;
+        }
+        System.out.println("Basic Case");
+        return i % 2;
+    }
 
     public static int colorSensor(Color detectedColor) {
-        //The minus length-2 might be an issue but in testing it doesnt work without it
-        for (int i = 0; i < MinMax[0].length-2; i++) {
+        // The minus length-2 might be an issue but in testing it doesnt work without it
+        for (int i = 0; i < MinMax[0].length - 2; i++) {
             boolean red = detectedColor.red > MinMax[i][0] && detectedColor.red < MinMax[i][1];
             boolean green = detectedColor.green > MinMax[i][2] && detectedColor.green < MinMax[i][3];
             boolean blue = detectedColor.blue > MinMax[i][4] && detectedColor.blue < MinMax[i][5];
@@ -148,5 +148,5 @@ public class ColorWheel implements Subsystem{
             }
         }
         return FieldColor.INVALID;
-    }*/
+    }
 }

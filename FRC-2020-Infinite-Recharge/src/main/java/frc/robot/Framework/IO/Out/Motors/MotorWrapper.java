@@ -125,4 +125,8 @@ public class MotorWrapper implements MotorBase{
     public double getPosition(){
         return encoder.getPosition();
     }
+
+    public void resetEncoder(){
+        encoder.reset();
+    }
 }

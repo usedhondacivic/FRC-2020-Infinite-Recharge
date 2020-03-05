@@ -53,4 +53,9 @@ public class In{
         ControllerWrapper requestedController = controllers.get(controller);
         return requestedController.getAxis(function, id);
     }
+
+    public String getAttribute(String name, String controller){
+        ControllerWrapper requestedController = controllers.get(controller);
+        return requestedController.getAttribute(name, id);
+    }
 }

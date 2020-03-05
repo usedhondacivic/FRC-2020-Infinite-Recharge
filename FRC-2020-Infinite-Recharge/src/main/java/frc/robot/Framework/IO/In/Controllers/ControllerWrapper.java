@@ -14,8 +14,10 @@ public class ControllerWrapper{
     private class SubsystemCollection{
         public Map<String, String> buttons = new HashMap<>();
         public Map<String, String> axes = new HashMap<>();
+        private Element subsystemElement;
 
         public SubsystemCollection(Element system){
+            subsystemElement = system;
             NodeList buttonNodes = system.getElementsByTagName("button");
             for(int i = 0; i < buttonNodes.getLength(); i++){
                 Node currentButton = buttonNodes.item(i);
@@ -33,6 +35,10 @@ public class ControllerWrapper{
                     axes.put(axisElement.getAttribute("function"), axisElement.getAttribute("axis"));
                 }
             }
+        }
+
+        public String getAttribute(String attribute){
+            return subsystemElement.getAttribute(attribute);
         }
     }
 
@@ -74,5 +80,13 @@ public class ControllerWrapper{
             return 0.0;
         }
         return controller.getAxis(requestedAxis);
+    }
+
+    public String getAttribute(String attribute, SubsystemID subsystemID){
+        SubsystemCollection requestedSystem = subsystemCollections.get(subsystemID.name());
+        if(requestedSystem == null){
+            System.out.println("Attribute not found.");
+        }
+        return requestedSystem.getAttribute(attribute);
     }
 }

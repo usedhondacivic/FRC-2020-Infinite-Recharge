@@ -4,4 +4,5 @@ public interface EncoderBase{
     public int getTicks();
     public double getVelocity();
     public double getPosition();
+    public void reset();
 }

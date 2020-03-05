@@ -28,5 +28,9 @@ public class NeoEncoder implements EncoderBase{
     public double getPosition() {
         return encoder.getPosition();
     }
+
+    public void reset(){
+        
+    }
     
 }

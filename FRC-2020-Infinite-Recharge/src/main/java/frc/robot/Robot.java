@@ -10,12 +10,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    In.Init("XML/Controls/Michael.xml");
-    Out.Init("XML/Subsystems.xml");
+    In.Init("XML/Controls/Lilly.xml");
+    Out.Init("XML/Configurations/Prodbot.xml");
     Subsystems.add(new Chassis());
     Subsystems.add(new Shooter());
     Subsystems.add(new Climber());
-    Subsystems.add(new ColorWheel());
+    //Subsystems.add(new ColorWheel());
     Subsystems.add(new Intake());
     Subsystems.robotInit();
   }

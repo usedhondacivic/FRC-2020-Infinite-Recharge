@@ -69,6 +69,10 @@ public class EncoderWrapper{
         return encoder.getPosition();
     }
 
+    public void reset(){
+        encoder.reset();
+    }
+
     public double getPIDOutput(){
         return pidController.getPIDOutput();
     }
