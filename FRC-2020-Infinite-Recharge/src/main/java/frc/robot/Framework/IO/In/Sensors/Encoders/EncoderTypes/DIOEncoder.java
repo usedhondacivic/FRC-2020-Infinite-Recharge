@@ -28,6 +28,10 @@ public class DIOEncoder implements EncoderBase{
         return encoder.getDistance();
     }
 
+    public void setDistancePerPulse(double factor){
+        encoder.setDistancePerPulse(factor);
+    }
+
     public void reset(){
         encoder.reset();
     }

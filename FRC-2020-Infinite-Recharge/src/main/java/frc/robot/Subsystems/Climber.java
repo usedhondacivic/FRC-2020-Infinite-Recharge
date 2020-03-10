@@ -30,14 +30,19 @@ public class Climber implements Subsystem{
     }
 
     public void teleopPeriodic(){
-        if(input.getButton("EXTEND", "DRIVE")){
+        if(input.getButton("LEFT_EXTEND", "DRIVE")){
             output.setMotor("WINCH_LEFT", climbSpeed);
-            output.setMotor("WINCH_RIGHT", climbSpeed);
-        }else if(input.getButton("RETRACT", "DRIVE")){
+        }else if(input.getButton("LEFT_RETRACT", "DRIVE")){
             output.setMotor("WINCH_LEFT", -climbSpeed);
-            output.setMotor("WINCH_RIGHT", -climbSpeed);
         }else{
             output.setMotor("WINCH_LEFT", 0);
+        }
+
+        if(input.getButton("RIGHT_EXTEND", "DRIVE")){
+            output.setMotor("WINCH_RIGHT", climbSpeed);
+        }else if(input.getButton("RIGHT_RETRACT", "DRIVE")){
+            output.setMotor("WINCH_RIGHT", -climbSpeed);
+        }else{
             output.setMotor("WINCH_RIGHT", 0);
         }
     }

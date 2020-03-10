@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <robot>
     <GENERIC>
-        <!--<compressor></compressor>-->
+        <compressor></compressor>
     </GENERIC>
-    <CHASSIS slow="0.4" normal="0.8" fast="1">
+    <CHASSIS slow="0.6" normal="0.8" fast="1">
         <group id="LEFT_SIDE" inverted="true">
             <motor controller="TALON" port="12"></motor>
             <motor controller="TALON" port="11"></motor>
-            <encoder type="TOUGH_BOX" port_one="2" port_two="3">
+            <encoder type="TOUGH_BOX" port_one="2" port_two="3" distance_per_pulse="1">
                 <pid type="VELOCITY" kP="0.001" kI="0" kD="0" kF="0"></pid>
             </encoder>
         </group>
@@ -23,7 +23,7 @@
         <motor id="RIGHT_SIDE_FRONT" controller="TALON" port="0"></motor>
         <motor id="RIGHT_SIDE_BACK" controller="TALON" port="1"></motor>-->
     </CHASSIS>
-    <SHOOTER close_speed="0.5" trench_speed="4600" color_wheel_speed="0.5" turret_upper="45" turret_lower="-225">
+    <SHOOTER close_speed="3000" trench_speed="3600" color_wheel_speed="6000" auto_speed="4250" turret_upper="60" turret_lower="-220" shot_adjust_strength="500">
         <motor id="SHOOTER_WHEEL" controller="SPARK_MAX" port="6" inverted="true">
             <encoder type="NEO" port_one="0" port_two="0" distance_per_pulse="1">
                 <pid name="VELOCITY" kP="0.001" kI="0" kD="0" kF="0"></pid>
@@ -34,20 +34,20 @@
                 <pid name="POSITION" kP="0.001" kI="0" kD="0" kF="0"></pid>
             </encoder>
         </motor>
-        <solenoid id="HOOD_ADJUST" type="SINGLE" port="1"></solenoid>
+        <solenoid id="HOOD_ADJUST" type="SINGLE" port="5"></solenoid>
     </SHOOTER>
     <CLIMBER speed="1">
         <motor id="WINCH_LEFT" controller="TALON" port="9"></motor>
         <motor id="WINCH_RIGHT" controller="TALON" port="1"></motor>
     </CLIMBER>
-    <INTAKE intake_speed="1" hopper_speed="0.3" kicker_speed="0.8">
-        <solenoid id="INTAKE_RAISE" type="SINGLE" port="2"></solenoid>
+    <INTAKE intake_speed="0.8" hopper_speed="0.3" kicker_speed="0.8">
+        <solenoid id="INTAKE_RAISE" type="SINGLE" port="7"></solenoid>
         <motor id="INTAKE_WHEELS" controller="TALON" port="10" inverted="true"></motor>
         <motor id="HOPPER" controller="TALON" port="4" inverted="true"></motor>
         <motor id="KICKER_WHEEL" controller="TALON" port="0"></motor>
     </INTAKE>
     <PANEL speed="0.4">
         <motor id="PANEL_SPINNER" controller="TALON" port="7"></motor>
-        <solenoid id="PANEL_RAISE" type="SINGLE" port="0"></solenoid>
+        <solenoid id="PANEL_RAISE" type="SINGLE" port="4"></solenoid>
     </PANEL>
 </robot>

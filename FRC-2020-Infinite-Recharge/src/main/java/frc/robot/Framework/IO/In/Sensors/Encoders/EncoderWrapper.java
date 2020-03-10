@@ -21,6 +21,9 @@ public class EncoderWrapper{
         int portOne = Integer.parseInt(element.getAttribute("port_one"));
         int portTwo = Integer.parseInt(element.getAttribute("port_two"));
         encoder = getEncoderType(encoderType, portOne, portTwo);
+        if(element.getAttribute("distance_per_pulse") != null){
+            encoder.setDistancePerPulse(Double.parseDouble(element.getAttribute("distance_per_pulse")));
+        }
 
         NodeList profiles = element.getElementsByTagName("pid");
         for(int i = 0; i < profiles.getLength(); i++) {

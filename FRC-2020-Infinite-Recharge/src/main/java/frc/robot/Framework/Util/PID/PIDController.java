@@ -12,7 +12,7 @@ public class PIDController{
     private String currentProfile;
     private Map<String, PIDProfile> profiles = new HashMap<>();
 
-    private double setpoint = 0;
+    public double setpoint = 0;
     public EncoderWrapper source;
 
     ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
@@ -23,6 +23,8 @@ public class PIDController{
         private PIDController parent;
         public double measuredValue;
         private String type;
+        private double setpoint;
+        private double previousError = 0;
 
         public PIDProfile(String type, double kP, double kI, double kD, double kF, PIDController parent){
             this.type = type;
@@ -35,6 +37,17 @@ public class PIDController{
 
         public void run(){
             updateMeasuredValue();
+            double error = parent.setpoint - measuredValue;
+
+            double p = error * kP;
+
+            double d = (error - previousError);
+            previousError = error;
+            d *= kD;
+
+            double f = setpoint * kF;
+
+            output = p + d + f;
         }
 
         private void updateMeasuredValue(){

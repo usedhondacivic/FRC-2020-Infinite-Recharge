@@ -29,6 +29,11 @@ public class NeoEncoder implements EncoderBase{
         return encoder.getPosition();
     }
 
+    public void setDistancePerPulse(double factor){
+        encoder.setPositionConversionFactor(factor);
+        encoder.setVelocityConversionFactor(factor);
+    }
+
     public void reset(){
         
     }

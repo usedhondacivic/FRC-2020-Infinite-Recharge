@@ -12,6 +12,9 @@ public class Intake implements Subsystem{
     private double hopperSpeed = Double.parseDouble(output.getAttribute("hopper_speed"));
     private double kickerSpeed = Double.parseDouble(output.getAttribute("kicker_speed"));
 
+    private boolean lastRaised = false;
+    private boolean intakeRaised = false;
+
     @Override
     public void robotInit() {
         System.out.println("Intake init");
@@ -34,30 +37,28 @@ public class Intake implements Subsystem{
 
     @Override
     public void teleopInit() {
-
     }
 
     @Override
     public void teleopPeriodic() {
-        if(input.getButton("RAISE", "OPERATOR")){
-            output.setSolenoid("INTAKE_RAISE", true);
-        }else{
-            output.setSolenoid("INTAKE_RAISE", false);
+        if(input.getButton("RAISE", "OPERATOR") && lastRaised != input.getButton("RAISE", "OPERATOR")){
+            System.out.println("Switched");
+            intakeRaised = !intakeRaised;
         }
+        
+        output.setSolenoid("INTAKE_RAISE", intakeRaised);
+        lastRaised = input.getButton("RAISE", "OPERATOR");
 
         if(input.getButton("INTAKE_IN", "DRIVE")){
             output.setMotor("INTAKE_WHEELS", intakeSpeed);
-            output.setMotor("HOPPER", hopperSpeed);
         }else if(input.getButton("INTAKE_OUT", "DRIVE")){
             output.setMotor("INTAKE_WHEELS", -intakeSpeed);
         }else{
             output.setMotor("INTAKE_WHEELS", 0);
-            output.setMotor("HOPPER", 0);
         }
 
         if(input.getButton("SHOOT", "OPERATOR")){
-            output.setMotor("KICKER_WHEEL", kickerSpeed);
-            output.setMotor("HOPPER", hopperSpeed);
+            shoot();
         }else if(input.getButton("UNJAM", "OPERATOR")){
             output.setMotor("KICKER_WHEEL", -kickerSpeed);
             output.setMotor("HOPPER", -hopperSpeed);
@@ -65,5 +66,17 @@ public class Intake implements Subsystem{
             output.setMotor("KICKER_WHEEL", 0);
             output.setMotor("HOPPER", 0);
         }
+    }
+
+    public void shoot(){
+        output.setMotor("KICKER_WHEEL", kickerSpeed);
+        output.setMotor("HOPPER", hopperSpeed);
+        output.setMotor("INTAKE_WHEELS", intakeSpeed * 0.5);
+    }
+
+    public void autoShoot(){
+        output.setMotor("KICKER_WHEEL", kickerSpeed);
+        output.setMotor("HOPPER", hopperSpeed);
+        output.setMotor("INTAKE_WHEELS", 0);
     }
 }
