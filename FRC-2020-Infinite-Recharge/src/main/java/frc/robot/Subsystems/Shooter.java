@@ -3,6 +3,13 @@ package frc.robot.Subsystems;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import edu.wpi.first.networktables.NetworkTable;
 import frc.robot.Robot;
 import frc.robot.Framework.Subsystem;
@@ -12,18 +19,19 @@ import frc.robot.Framework.IO.Out.Out;
 import frc.robot.Framework.Util.CommandMode;
 import frc.robot.Subsystems.*;
 
-public class Shooter implements Subsystem{
+public class Shooter implements Subsystem {
     Timer time = new Timer();
     private In input = new In(SubsystemID.SHOOTER);
     private Out output = new Out(SubsystemID.SHOOTER);
 
-    private double closeSpeed = Double.parseDouble(output.getAttribute("close_speed"));
-    private double trenchSpeed = Double.parseDouble(output.getAttribute("trench_speed"));
-    private double colorWheelSpeed = Double.parseDouble(output.getAttribute("color_wheel_speed"));
-    private double autoSpeed = Double.parseDouble(output.getAttribute("auto_speed"));
+    private String speedTable = output.getAttribute("speed_table");
+    private BufferedReader reader;
+    private ArrayList<double[]> shotDistanceTable = new ArrayList<>();
 
     private double shotAdjust = Double.parseDouble(output.getAttribute("shot_adjust_strength"));
 
+    private double closeSpeed = Double.parseDouble(output.getAttribute("close_speed"));
+    private double defaultSpeed = Double.parseDouble(output.getAttribute("default_speed"));
     private double turretUpper = Double.parseDouble(output.getAttribute("turret_upper"));
     private double turretLower = Double.parseDouble(output.getAttribute("turret_lower"));
 
@@ -37,10 +45,8 @@ public class Shooter implements Subsystem{
 
     private double targetFound = 0;
 
-    private enum setShots{
-        CLOSE,
-        TRENCH,
-        COLOR_WHEEL
+    private enum setShots {
+        CLOSE, TRENCH, COLOR_WHEEL
     };
 
     setShots currentShot = setShots.TRENCH;
@@ -48,57 +54,58 @@ public class Shooter implements Subsystem{
     public void robotInit(){
         System.out.println("Shooter init");
         output.setPID("SHOOTER_WHEEL", 0.001, 0, 0.5, 0.00019);
+        initTable(speedTable);
     }
 
-    public void robotPeriodic(){
+    public void robotPeriodic() {
         targetFound = cameraTable.getEntry("tv").getDouble(0);
         SmartDashboard.putBoolean("Target found", targetFound == 1);
-        
+
         SmartDashboard.putNumber("Turret position", output.getPosition("TURRET_AIM"));
-        SmartDashboard.putNumber("Shooter velocity",output.getVelocity("SHOOTER_WHEEL"));
+        SmartDashboard.putNumber("Shooter velocity", output.getVelocity("SHOOTER_WHEEL"));
     }
 
-    public void autonomousInit(){
+    public void autonomousInit() {
         output.resetEncoder("TURRET_AIM");
         resetInAuto = true;
     }
 
-    public void autonomousPeriodic(){
-        if(Timer.getMatchTime() > 3){
-            output.setMotor("SHOOTER_WHEEL", autoSpeed, CommandMode.VELOCITY);
+    public void autonomousPeriodic() {
+        if (Timer.getMatchTime() > 3) {
+            output.setMotor("SHOOTER_WHEEL", getShotSpeed(), CommandMode.VELOCITY);
 
-            if(targetFound == 1){
+            if (targetFound == 1) {
                 trackTarget();
-                if(Timer.getMatchTime() < 13){
-                    ((Intake)Subsystems.getSubsystem(SubsystemID.INTAKE)).autoShoot();
+                if (Timer.getMatchTime() < 13) {
+                    ((Intake) Subsystems.getSubsystem(SubsystemID.INTAKE)).autoShoot();
                 }
-            }else{
+            } else {
                 setTurret(0.2);
             }
-        }else{
+        } else {
             output.setMotor("SHOOTER_WHEEL", 0);
         }
     }
 
-    public void teleopInit(){
-        if(!resetInAuto){
+    public void teleopInit() {
+        if (!resetInAuto) {
             output.resetEncoder("TURRET_AIM");
         }
         resetInAuto = false;
     }
 
-    public void teleopPeriodic(){
-        if(input.getAxis("REV_UP", "OPERATOR") > 0.7f){
-            if(input.getButton("MANUAL_AIM", "OPERATOR")){
+    public void teleopPeriodic() {
+        if (input.getAxis("REV_UP", "OPERATOR") > 0.7f) {
+            if (input.getButton("MANUAL_AIM", "OPERATOR")) {
                 setTurret(input.getAxis("TURRET_AIM", "OPERATOR") * 0.5);
-            }else if(targetFound == 1){
+            } else if (targetFound == 1) {
                 trackTarget();
-            }else{
+            } else {
                 setTurret(input.getAxis("TURRET_AIM", "OPERATOR") * 0.5);
             }
 
             output.setMotor("SHOOTER_WHEEL", getShotSpeed(), CommandMode.VELOCITY);
-        }else{
+        } else {
             output.setMotor("SHOOTER_WHEEL", 0);
             setTurret(input.getAxis("TURRET_AIM", "OPERATOR") * 0.5);
         }
@@ -107,41 +114,78 @@ public class Shooter implements Subsystem{
         getDistance();
     }
 
-    private void trackTarget(){
+    private void trackTarget() {
         double tx = cameraTable.getEntry("tx").getDouble(0);
         double steerAdjust = 0.0f;
-        if(tx > 1.0){
-            steerAdjust = kP*tx + minCommand;
-        }else if(tx < 1.0){
-            steerAdjust = kP*tx - minCommand;
+        if (tx > 1.0) {
+            steerAdjust = kP * tx + minCommand;
+        } else if (tx < 1.0) {
+            steerAdjust = kP * tx - minCommand;
         }
         setTurret(steerAdjust);
     }
 
-    private void shoot(){
+    private double getShotSpeed() {
+        double returnSpeed = defaultSpeed;
 
-    }
-
-    private double getShotSpeed(){
-        double returnSpeed;
-        if(input.getButton("HIGH_SHOT", "OPERATOR")){
+        if(input.getButton("HIGH_SHOT", "OPERATOR")) {
             output.setSolenoid("HOOD_ADJUST", true);
             returnSpeed = closeSpeed;
         }else{
             output.setSolenoid("HOOD_ADJUST", false);
-            returnSpeed = trenchSpeed;
+            returnSpeed = getSpeedFromDistance(getDistance());
+            SmartDashboard.putNumber("Calculated speed", returnSpeed);
         }
 
         return returnSpeed + input.getAxis("SHOT_ADJUST", "OPERATOR") * shotAdjust;
     }
 
-    private void setTurret(double value){
-        if(output.getPosition("TURRET_AIM") > turretUpper && value > 0){
+    private double getSpeedFromDistance(double distance){
+        double speed = defaultSpeed;
+        if(shotDistanceTable.size() < 2){
+            return speed;
+        }
+
+        for(int i = 1; i < shotDistanceTable.size(); i++){
+            double[] pointTwo = shotDistanceTable.get(i);
+            if(pointTwo[0] < distance){
+                continue;
+            }
+            double[] pointOne = shotDistanceTable.get(i-1);
+            speed = mapRange(pointOne[0], pointTwo[0], pointOne[1], pointTwo[1], distance);
+            return speed;
+        }
+
+        if(distance > shotDistanceTable.get(shotDistanceTable.size()-1)[0]){
+            double[] pointTwo = shotDistanceTable.get(shotDistanceTable.size()-1);
+            double[] pointOne = shotDistanceTable.get(shotDistanceTable.size()-2);
+            return mapRange(pointOne[0], pointTwo[0], pointOne[1], pointTwo[1], distance);
+        }
+
+        return speed;
+    }
+
+    private void setTurret(double value) {
+        if (output.getPosition("TURRET_AIM") > turretUpper && value > 0) {
             output.setMotor("TURRET_AIM", 0);
-        }else if(output.getPosition("TURRET_AIM") < turretLower && value < 0){
+        } else if (output.getPosition("TURRET_AIM") < turretLower && value < 0) {
             output.setMotor("TURRET_AIM", 0);
-        }else{
+        } else {
             output.setMotor("TURRET_AIM", value);
+        }
+    }
+
+    private void initTable(String path) {
+        try {
+            reader = new BufferedReader(new FileReader("/home/lvuser/deploy/"+path));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] items = line.split(",");
+                double[] entry = {Double.parseDouble(items[0]), Double.parseDouble(items[1])};
+                shotDistanceTable.add(entry);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -169,4 +213,8 @@ public class Shooter implements Subsystem{
 
         return dist;
     }
+
+    private double mapRange(double a1, double a2, double b1, double b2, double s){
+		return b1 + ((s - a1)*(b2 - b1))/(a2 - a1);
+	}
 }
