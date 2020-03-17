@@ -23,7 +23,7 @@
         <motor id="RIGHT_SIDE_FRONT" controller="TALON" port="0"></motor>
         <motor id="RIGHT_SIDE_BACK" controller="TALON" port="1"></motor>-->
     </CHASSIS>
-    <SHOOTER speed_table="XML/Tables/shotSpeed.txt" default_speed="3750" close_speed= "4250" turret_upper="60" turret_lower="-220" shot_adjust_strength="500">
+    <SHOOTER speed_table="XML/Tables/shotSpeed.txt" angle_table="XML/Tables/angleAdjustment.txt" default_speed="3750" close_speed= "4250" turret_upper="60" turret_lower="-220" shot_adjust_strength="500">
         <motor id="SHOOTER_WHEEL" controller="SPARK_MAX" port="6" inverted="true">
             <encoder type="NEO" port_one="0" port_two="0" distance_per_pulse="1">
                 <pid name="VELOCITY" kP="0.001" kI="0" kD="0" kF="0"></pid>
